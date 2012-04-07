@@ -14,6 +14,7 @@ end
 
 remote_file "#{Chef::Config[:file_cache_path]}/node-v#{node["nodejs"]["version"]}.tar.gz" do
   source node["nodejs"]["url"]
+  checksum node["nodejs"]["checksum"]
 end
 
 execute "tar -xzf #{Chef::Config[:file_cache_path]}/node-v#{node["nodejs"]["version"]}.tar.gz" do
@@ -21,7 +22,7 @@ execute "tar -xzf #{Chef::Config[:file_cache_path]}/node-v#{node["nodejs"]["vers
   creates "#{node["nodejs"]["dir"]}/src/node-v#{node["nodejs"]["version"]}"
 end
 
-bash "install" do
+bash "install-node" do
   cwd "#{node["nodejs"]["dir"]}/src/node-v#{node["nodejs"]["version"]}"
   code <<-EOH
     ./configure --prefix=#{node["nodejs"]["dir"]} && make && make install
