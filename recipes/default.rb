@@ -12,23 +12,20 @@ node_packages.each do |node_package|
   end
 end
 
+bash "install-node" do
+  cwd Chef::Config[:file_cache_path]
+  code <<-EOH
+    tar -xzf node-v#{node["nodejs"]["version"]}.tar.gz
+    (cd node-v#{node["nodejs"]["version"]} && ./configure --prefix=#{node["nodejs"]["dir"]} && make && make install)
+  EOH
+  action :nothing
+  not_if "#{node["nodejs"]["dir"]}/bin/node --version 2>&1 | grep #{node["nodejs"]["version"]}"
+end
+
 remote_file "#{Chef::Config[:file_cache_path]}/node-v#{node["nodejs"]["version"]}.tar.gz" do
   source node["nodejs"]["url"]
   checksum node["nodejs"]["checksum"]
-end
-
-execute "tar -xzf #{Chef::Config[:file_cache_path]}/node-v#{node["nodejs"]["version"]}.tar.gz" do
-  cwd "#{node["nodejs"]["dir"]}/src"
-  creates "#{node["nodejs"]["dir"]}/src/node-v#{node["nodejs"]["version"]}"
-end
-
-bash "install-node" do
-  cwd "#{node["nodejs"]["dir"]}/src/node-v#{node["nodejs"]["version"]}"
-  code <<-EOH
-    ./configure --prefix=#{node["nodejs"]["dir"]} && make && make install
-  EOH
-  creates "#{node["nodejs"]["dir"]}/src/node-v#{node["nodejs"]["version"]}/node"
-  not_if "#{node["nodejs"]["dir"]}/bin/node --version 2>&1 | grep #{node["nodejs"]["version"]}"
+  notifies :run, resources(:bash => "install-node"), :immediately
 end
 
 include_recipe "nodejs::npm"
