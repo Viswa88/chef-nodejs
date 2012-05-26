@@ -1,10 +1,9 @@
 maintainer        "Hector Castro"
 maintainer_email  "hectcastro@gmail.com"
 license           "Apache 2.0"
-description       "Installs and configures Node.js."
-version           "0.0.4"
+description       "Installs and configures Node.js and npm."
+version           "0.0.5"
 recipe            "nodejs", "Installs and configures Node.js and npm"
-recipe            "nodejs::npm", "Installs and configures npm"
 
 depends "build-essential"
 
