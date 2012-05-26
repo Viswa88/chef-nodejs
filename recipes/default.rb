@@ -27,5 +27,3 @@ remote_file "#{Chef::Config[:file_cache_path]}/node-v#{node["nodejs"]["version"]
   checksum node["nodejs"]["checksum"]
   notifies :run, resources(:bash => "install-node"), :immediately
 end
-
-include_recipe "nodejs::npm"
