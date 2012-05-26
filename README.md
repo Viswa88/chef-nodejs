@@ -8,6 +8,7 @@ work done by [Librato](https://github.com/librato/nodejs-cookbook).
 ## Platforms ##
 
 * Ubuntu 11.10 (Oneiric)
+* Ubuntu 12.04 (Precise)
 
 ## Cookbooks ##
 
