@@ -11,6 +11,7 @@ work done by [Librato](https://github.com/librato/nodejs-cookbook).
 
 * Ubuntu 11.10 (Oneiric)
 * Ubuntu 12.04 (Precise)
+* CentOS 6.4
 
 ### Cookbooks
 
